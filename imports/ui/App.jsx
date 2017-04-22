@@ -6,7 +6,6 @@ import { Users } from '../api/users.js';
 
 import Game from './Game.jsx';
 import User from './User.jsx';
-import Login from './Login.jsx';
 
 // App component - represents the whole app
 class App extends Component {
@@ -33,7 +32,7 @@ class App extends Component {
             {this.renderUsers()} 
           </ul>
         </div>
-        <div className="footer"></div>
+        <div className="footer"><a href="">Admin Login</a></div>
       </div>
     );
   }

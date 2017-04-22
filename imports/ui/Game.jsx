@@ -49,7 +49,7 @@ export default class Game extends Component {
                 <input
                 type="text"
                 ref="textInput"
-                placeholder="Enter your name"
+                placeholder="Enter your gaming handle and press enter"
                 />
             </form> : 
             <h2>Welcome {this.state.user.text}</h2>

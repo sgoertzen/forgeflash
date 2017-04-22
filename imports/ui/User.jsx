@@ -9,8 +9,6 @@ export default class User extends Component {
   }
 
   render() {
-    // Give users a different className when they are checked off,
-    // so that we can style them nicely in CSS 
     return (
       <li>
         <button className="delete" onClick={this.deleteThisUser.bind(this)}>
