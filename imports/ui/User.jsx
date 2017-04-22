@@ -10,15 +10,13 @@ export default class User extends Component {
 
   render() {
     // Give users a different className when they are checked off,
-    // so that we can style them nicely in CSS
-    const userClassName = this.props.user.checked ? 'checked' : '';
- 
+    // so that we can style them nicely in CSS 
     return (
-      <li className={userClassName}>
+      <li>
         <button className="delete" onClick={this.deleteThisUser.bind(this)}>
             &times;
           </button>
-        <span className="text">{this.props.user.text} {this.props.user.score}</span>
+        <span className="text">{this.props.user.text} ({this.props.user.score})</span>
       </li>
     );
   }

@@ -71,7 +71,8 @@ export default class Game extends Component {
   }
 
   tick(score) {
-    if (parseInt(score) > parseInt(this.state.highScore))
+    score = parseInt(score)
+    if (score > this.state.highScore)
     {
         this.setState({
             highScore: score
