@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import { Players } from '../api/players.js';
+import { Tournament } from '../api/tournament.js';
 
 export default class Game extends Component {
   constructor(props) {
@@ -39,11 +40,19 @@ export default class Game extends Component {
       () => this.tick(getFlashMovieObject("myFlashMovie").GetVariable("_root.score")),
       1000
     );
+        Tournament.insert({ 
+        started: false,
+        timeAllowedSeconds: 600,
+        startTime: null,
+    });
   }
 
   render() {
+    //var tourney = Tournament.findOne().fetch();
     return <div>
         <header>
+        <span>Forge Flash </span>
+        <span> tournament.timeAllowedSeconds </span>
         { !this.state.player ? 
             <form className="new-player" onSubmit={this.handlePlayerSubmit.bind(this)} >
                 <input
@@ -90,7 +99,5 @@ export default class Game extends Component {
 }
  
 Game.propTypes = {
-  // This component gets the player to display through a React prop.
-  // We can use propTypes to indicate it is required
-  
+  //tournament: PropTypes.array.isRequired,
 };
