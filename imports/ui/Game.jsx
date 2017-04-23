@@ -40,11 +40,6 @@ export default class Game extends Component {
       () => this.tick(getFlashMovieObject("myFlashMovie").GetVariable("_root.score")),
       1000
     );
-        Tournament.insert({ 
-        started: false,
-        timeAllowedSeconds: 600,
-        startTime: null,
-    });
   }
 
   render() {

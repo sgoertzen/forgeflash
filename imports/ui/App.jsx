@@ -14,15 +14,16 @@ class App extends Component {
   renderPlayers() {
     let filteredPlayers = this.props.players
     filteredPlayers = filteredPlayers.filter(player => player.createdAt);
-    return filteredPlayers.map((player) => (
+    return this.props.players.map((player) => (
       <Player key={player._id} player={player} />
     ));
   }
 
   renderTournament() {
-    return this.props.tournament.map((tourney) => (
-      <h1>{tourney.timeAllowedSeconds} </h1>
-    ));
+    //var tourney = this.props.tournament.first()
+    return (
+      <h1>{ this.props.tournament }</h1>
+    );
   }
 
   render() {
@@ -47,12 +48,12 @@ class App extends Component {
 }
 App.propTypes = {
   players: PropTypes.array.isRequired,
-  tournament: PropTypes.array.isRequired,
+  tournament: PropTypes.number.isRequired,
 };
  
 export default createContainer(() => {
   return {
     players: Players.find({}, {sort: {score: -1}}).fetch(),
-    tournament: Tournament.find().fetch(),
+    tournament: Tournament.find().fetch().length,
   };
 }, App);
