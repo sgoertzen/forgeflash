@@ -11,37 +11,6 @@ export default class Game extends Component {
     };
   }
  
-//   handlePlayerCreated(error, player_id) {
-//     let player = Players.findOne(player_id);
-//     // this.state.player = player;
-//     // this.forceUpdate();
-//     this.setState({
-//         player: player
-//     });
-//   }
-  
-//   handlePlayerSubmit(event) {
-//     event.preventDefault();
- 
-//     // Find the text field via the React ref
-//     const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
- 
-//     Players.insert({
-//       text,
-//       createdAt: new Date(), // current time
-//       score: 0
-//     }, this.handlePlayerCreated.bind(this));
- 
-//     // Clear form
-//     ReactDOM.findDOMNode(this.refs.textInput).value = '';
-    
-//     this.timerID = setInterval(
-//       () => this.tick(getFlashMovieObject("myFlashMovie").GetVariable("_root.score")),
-//       1000
-//     );
-//   }
-
-
   render() {
     return (
         <div>
