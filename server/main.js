@@ -24,6 +24,6 @@ Accounts.onLogin((user) => {
     var steamname = results.data.response.players[0].personaname;
     var steamavatar = results.data.response.players[0].avatar;
 
-    Meteor.users.update({_id:Meteor.user()._id}, { $set: { profile: {steamname: steamname, steamavatar: steamavatar }} });
+    Meteor.users.update({_id:Meteor.user()._id}, { $set: { profile: {steamname: steamname, steamavatar: steamavatar, steamid: steamid }} });
   })
 });
