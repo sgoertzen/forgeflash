@@ -2,9 +2,12 @@ import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import { createContainer } from 'meteor/react-meteor-data';
 
+
 import { Players } from '../api/players.js';
 
 import Game from './Game.jsx';
+import Login from './Login.jsx';
+import LoggedIn from './LoggedIn.jsx';
 import Player from './Player.jsx';
 
 // App component - represents the whole app
@@ -25,6 +28,7 @@ class App extends Component {
           <img width="800px" src="/images/default_header.jpg" alt="ForgeFlash"/>
         </div>
         <div className="content">
+          { this.props.currentUser ? <LoggedIn/> : <Login/> }
           <Game/>
         </div>
         <div className="players">
@@ -32,7 +36,6 @@ class App extends Component {
             {this.renderPlayers()} 
           </ul>
         </div>
-        <div className="footer"><a href="">Admin Login</a></div>
       </div>
     );
   }
@@ -44,5 +47,6 @@ App.propTypes = {
 export default createContainer(() => {
   return {
     players: Players.find({}, {sort: {score: -1}}).fetch(),
+    currentUser: Meteor.user(),
   };
 }, App);

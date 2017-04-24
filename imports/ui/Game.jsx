@@ -11,63 +11,21 @@ export default class Game extends Component {
     };
   }
  
-  handlePlayerCreated(error, player_id) {
-    let player = Players.findOne(player_id);
-    // this.state.player = player;
-    // this.forceUpdate();
-    this.setState({
-        player: player
-    });
-  }
-  
-  handlePlayerSubmit(event) {
-    event.preventDefault();
- 
-    // Find the text field via the React ref
-    const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
- 
-    Players.insert({
-      text,
-      createdAt: new Date(), // current time
-      score: 0
-    }, this.handlePlayerCreated.bind(this));
- 
-    // Clear form
-    ReactDOM.findDOMNode(this.refs.textInput).value = '';
-    
-    this.timerID = setInterval(
-      () => this.tick(getFlashMovieObject("myFlashMovie").GetVariable("_root.score")),
-      1000
-    );
-  }
-
   render() {
-    return <div>
-        <header>
-        { !this.state.player ? 
-            <form className="new-player" onSubmit={this.handlePlayerSubmit.bind(this)} >
-                <input
-                type="text"
-                ref="textInput"
-                placeholder="Enter your gaming handle and press enter"
-                />
-            </form> : 
-            <h2>Welcome {this.state.player.text}</h2>
-        }
-        </header>
-        { this.state.player ? 
+    return (
+        <div>
+        { Meteor.userId() ? 
             <div>
-                <h3>Your highest score: {this.state.highScore}</h3>
-                <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="" id="myFlashMovie" width="600" height="430">
-                    <param name="movie" value="/images/multitask.swf"/>
-                    <embed play="false" swliveconnect="true" name="myFlashMovie" src="/images/multitask.swf" quality="high" bgcolor="#FFFFFF" width="600" height="430" type="application/x-shockwave-flash">
-                    </embed>
-                </object>
+            <h3>Your highest score: {this.state.highScore}</h3>
+            <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="" id="myFlashMovie" width="600" height="430">
+                <param name="movie" value="/images/multitask.swf"/>
+                <embed play="false" swliveconnect="true" name="myFlashMovie" src="/images/multitask.swf" quality="high" bgcolor="#FFFFFF" width="600" height="430" type="application/x-shockwave-flash">
+                </embed>
+            </object>
             </div>
-            : '' 
-         }
-        
-        </div>;
+        : '' }
+        </div>
+    );
   }
 
   tick(score) {
@@ -77,11 +35,15 @@ export default class Game extends Component {
         this.setState({
             highScore: score
         });
-        Players.update(this.state.player._id, {$set: { score: score }})
+        Players.update(Meteor.user().profile.steamid, {$set: { score: score }})
     }
   }
 
   componentDidMount() {
+    this.timerID = setInterval(
+      () => this.tick(getFlashMovieObject("myFlashMovie").GetVariable("_root.score")),
+      1000
+    );
   }
 
   componentWillUnmount() {
