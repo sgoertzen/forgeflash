@@ -41,21 +41,23 @@ export default class Game extends Component {
     );
   }
 
+  handleSteamLogin() {
+      Meteor.loginWithSteam();
+  }
+  handleSteamLogout() {
+      Meteor.logout();
+      return false;
+  }
+
   render() {
     return <div>
         <header>
-        { !this.state.player ? 
-            <form className="new-player" onSubmit={this.handlePlayerSubmit.bind(this)} >
-                <input
-                type="text"
-                ref="textInput"
-                placeholder="Enter your gaming handle and press enter"
-                />
-            </form> : 
-            <h2>Welcome {this.state.player.text}</h2>
+        { !Meteor.user() ? 
+            <button id="login" onClick={this.handleSteamLogin}>Log in with Steam</button> : 
+            <span><img width="32" height="32" src={Meteor.user().profile.steamavatar}/><h2>Welcome {Meteor.user().profile.steamname}</h2><a href="/" onClick={this.handleSteamLogout}>Logout</a></span>
         }
         </header>
-        { this.state.player ? 
+        { Meteor.user() ? 
             <div>
                 <h3>Your highest score: {this.state.highScore}</h3>
                 <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="" id="myFlashMovie" width="600" height="430">

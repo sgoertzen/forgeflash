@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import { createContainer } from 'meteor/react-meteor-data';
 
+
 import { Players } from '../api/players.js';
 
 import Game from './Game.jsx';
@@ -17,6 +18,10 @@ class App extends Component {
       <Player key={player._id} player={player} />
     ));
   }
+
+  // loginWithSteam() {
+  //   Meteor.loginWithSteam();
+  // }
 
   render() {
     return (
