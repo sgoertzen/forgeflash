@@ -13,8 +13,6 @@ Meteor.startup(() => {
     }
   );
 });
-// Accounts.onCreateUser((options, user) => {
-// });
 
 Accounts.onLogin((user) => {
   var steamid = user.user.services.steam.id;
