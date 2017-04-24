@@ -23,10 +23,12 @@ class App extends Component {
   }
 
   renderTournament() {
-    //var tourney = this.props.tournament.first()
-    return (
-      <h1>{ this.props.tournament }</h1>
-    );
+    
+    return this.props.tournament.map((tourney) => (
+      
+      // <Tournament key={tourney._id} tournament={tourney}/>
+      <h1>{tourney.started ? 'now!' : 'Not started'} {tourney.timeAllowedSeconds}</h1>
+    ));
   }
 
   render() {
@@ -36,12 +38,12 @@ class App extends Component {
           <img width="800px" src="/images/default_header.jpg" alt="ForgeFlash"/>
         </div>
         <div className="content">
-          {this.renderTournament()}
           { this.props.currentUser ? <LoggedIn/> : <Login/> }
           <Game/>
         </div>
         <div className="players">
           <ul>
+            <li>{this.props.tournament ? this.renderTournament() : ''}</li>
             {this.renderPlayers()} 
           </ul>
         </div>
@@ -51,13 +53,13 @@ class App extends Component {
 }
 App.propTypes = {
   players: PropTypes.array.isRequired,
-  tournament: PropTypes.number.isRequired,
+  tournament: PropTypes.array.isRequired,
 };
  
 export default createContainer(() => {
   return {
     players: Players.find({}, {sort: {score: -1}}).fetch(),
-    tournament: Tournament.find().fetch().length,
+    tournament: Tournament.find().fetch(),
     currentUser: Meteor.user(),
   };
 }, App);
