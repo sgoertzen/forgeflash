@@ -61,6 +61,7 @@ h1 {
   margin-right: 1em;
 }
 
+
 h3 {
   margin: 10px;
 }
@@ -70,12 +71,20 @@ form {
   margin-bottom: 10px;
   position: relative;
 }
- 
+
+.welcome {
+  font-size: 1.5em;
+}
+
+.tinylink {
+  margin-left: 1em;
+  font-size: .5em;
+}
+
+/*
 .new-player input {
   box-sizing: border-box;
   padding: 10px;
-  /*background: transparent;
-  border: none;*/
   width: 100%;
   padding-right: 80px;
   font-size: 1em;
@@ -84,7 +93,13 @@ form {
 .new-player input:focus{
   outline: 0;
 }
+*/
  
+.avatar {
+  width: 16px;
+  height: 16px;
+}
+
 ul {
   margin: 0;
   padding: 0;
