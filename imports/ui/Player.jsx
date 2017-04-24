@@ -14,7 +14,7 @@ export default class Player extends Component {
         <button className="delete" onClick={this.deleteThisPlayer.bind(this)}>
             &times;
           </button>
-        <span className="text">{this.props.player.text} ({this.props.player.score})</span>
+        <img className="avatar" src={this.props.player.steamavatar}/><span className="text">{this.props.player.steamname} ({this.props.player.score})</span>
       </li>
     );
   }

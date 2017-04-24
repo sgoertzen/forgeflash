@@ -10,10 +10,8 @@ export default class LoggedIn extends Component {
 
   render() {
      return <header>
-        <span>
-            <h2>Welcome { Meteor.user().profile.steamname }</h2>
-            <a href="/" onClick={this.handleSteamLogout}>Logout</a>
-        </span>
+            <span className="welcome">Welcome { Meteor.user().profile.steamname }</span>
+            <a className="tinylink" href="/" onClick={this.handleSteamLogout}>Logout</a>
     </header>;
   }
 }

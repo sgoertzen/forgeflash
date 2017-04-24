@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import '../imports/api/players.js';
+import { Players } from '../imports/api/players.js';
 
 Meteor.startup(() => {
   // code to run on server at startup
@@ -23,5 +23,21 @@ Accounts.onLogin((user) => {
     var steamavatar = results.data.response.players[0].avatar;
 
     Meteor.users.update({_id:Meteor.user()._id}, { $set: { profile: {steamname: steamname, steamavatar: steamavatar, steamid: steamid }} });
+
+    Players.upsert(
+      { 
+        // Selector
+        _id: steamid }, 
+      {
+        // Values
+        $set: {
+          _id: steamid,
+          steamname,
+          steamavatar,
+          createdAt: new Date(), // current time
+          score: 0
+        }
+      }
+    );
   })
 });

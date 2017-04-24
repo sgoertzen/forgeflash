@@ -58,19 +58,6 @@ export default class Game extends Component {
         </div>
     );
   }
-//   render() {
-//     return ({ Meteor.user() ? 
-//             <div>
-//                 <h3>Your highest score: {this.state.highScore}</h3>
-//                 <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="" id="myFlashMovie" width="600" height="430">
-//                     <param name="movie" value="/images/multitask.swf"/>
-//                     <embed play="false" swliveconnect="true" name="myFlashMovie" src="/images/multitask.swf" quality="high" bgcolor="#FFFFFF" width="600" height="430" type="application/x-shockwave-flash">
-//                     </embed>
-//                 </object>
-//             </div>
-//             : '' 
-//          });
-//  }
 
   tick(score) {
     score = parseInt(score)
@@ -79,11 +66,15 @@ export default class Game extends Component {
         this.setState({
             highScore: score
         });
-        Players.update(this.state.player._id, {$set: { score: score }})
+        Players.update(Meteor.user().profile.steamid, {$set: { score: score }})
     }
   }
 
   componentDidMount() {
+    this.timerID = setInterval(
+      () => this.tick(getFlashMovieObject("myFlashMovie").GetVariable("_root.score")),
+      1000
+    );
   }
 
   componentWillUnmount() {
