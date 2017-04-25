@@ -30,6 +30,11 @@ Accounts.onLogin((user) => {
   var url = 'http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=0649D4EAC77DD2EB8682870489FE80CC&steamids=' + steamid
 
   HTTP.get(url, function(error, results) {
+    if (error) {
+      console.log("Unable to fetch the steam user details at " + url);
+      console.log(error)
+      return;
+    }
     var steamname = results.data.response.players[0].personaname;
     var steamavatar = results.data.response.players[0].avatar;
 

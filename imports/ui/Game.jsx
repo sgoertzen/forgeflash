@@ -9,18 +9,20 @@ export default class Game extends Component {
     this.state = {
        highScore: 0,
        player: null,
+       game: "multitask",  // Either cursor or multitask
     };
   }
  
   render() {
+    var gamefile = this.state.game == "cursor" ? "/games/cursor.swf" : "/games/multitask.swf";
     return (
         <div>
         { Meteor.userId() ? 
             <div>
             <h3>Your highest score: {this.state.highScore}</h3>
-            <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="" id="myFlashMovie" width="600" height="430">
-                <param name="movie" value="/images/multitask.swf"/>
-                <embed play="false" swliveconnect="true" name="myFlashMovie" src="/images/multitask.swf" quality="high" bgcolor="#FFFFFF" width="600" height="430" type="application/x-shockwave-flash">
+            <object classID="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" id="myFlashMovie" width="600" height="430">
+                <param name="movie" value={gamefile}/>
+                <embed name="myFlashMovie" src={gamefile} width="600" height="430" type="application/x-shockwave-flash">
                 </embed>
             </object>
             </div>
@@ -41,8 +43,9 @@ export default class Game extends Component {
   }
 
   componentDidMount() {
+    var variableName = this.state.game == "cursor" ? "_root.high_score" : "_root.score";
     this.timerID = setInterval(
-      () => this.tick(getFlashMovieObject("myFlashMovie").GetVariable("_root.score")),
+      () => this.tick(getFlashMovieObject("myFlashMovie").GetVariable(variableName)),
       1000
     );
   }
@@ -51,7 +54,7 @@ export default class Game extends Component {
       clearInterval(this.timerID);
   }
 }
- 
+
 Game.propTypes = {
   tournament: PropTypes.object ,
 };
