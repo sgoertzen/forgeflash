@@ -10,6 +10,7 @@ import Game from './Game.jsx';
 import Login from './Login.jsx';
 import LoggedIn from './LoggedIn.jsx';
 import Player from './Player.jsx';
+import TournamentTime from './TournamentTime.jsx';
 
 // App component - represents the whole app
 class App extends Component {
@@ -19,15 +20,6 @@ class App extends Component {
     filteredPlayers = filteredPlayers.filter(player => player.createdAt);
     return this.props.players.map((player) => (
       <Player key={player._id} player={player} />
-    ));
-  }
-
-  renderTournament() {
-    
-    return this.props.tournament.map((tourney) => (
-      
-      // <Tournament key={tourney._id} tournament={tourney}/>
-      <h1>{tourney.started ? 'now!' : 'Not started'} {tourney.timeAllowedSeconds}</h1>
     ));
   }
 
@@ -43,7 +35,7 @@ class App extends Component {
         </div>
         <div className="players">
           <ul>
-            <li>{this.props.tournament ? this.renderTournament() : ''}</li>
+            <li><TournamentTime tournament={this.props.tournament}/></li>
             {this.renderPlayers()} 
           </ul>
         </div>

@@ -8,7 +8,8 @@ Meteor.startup(() => {
   if (count < 1 ) {
     Tournament.insert({ 
           started: false,
-          timeAllowedSeconds: 600,
+          ended: false,
+          timeAllowedSeconds: 15,
           startTime: null,
       });
   }

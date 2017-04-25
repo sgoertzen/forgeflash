@@ -9,7 +9,7 @@ export default class Player extends Component {
   }
 
   render() {
-    var admin = Meteor.user().profile.steamid == "76561197970529465";
+    var admin = Meteor.user() && (Meteor.user().profile.steamid == "76561197970529465");
 
     return (
       <li>

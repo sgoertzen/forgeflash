@@ -102,7 +102,7 @@ form {
 }
 
 ul {
-  margin: 0 20px 0 0;
+  margin: 0 0 0 0;
   padding: 0;
   background: white;
 }
@@ -115,11 +115,20 @@ ul {
   border: none;
   position: relative;
 }
- 
+
+.timer {
+  font-weight: bold;
+  font-size: 3em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} 
+
 li {
   position: relative;
   list-style: none;
   padding: 5px;
+  width: 190px;
   border-bottom: #cccccc solid 1px;
 }
  
