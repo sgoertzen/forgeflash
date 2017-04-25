@@ -1,8 +1,20 @@
 import { Meteor } from 'meteor/meteor';
 import { Players } from '../imports/api/players.js';
+import { Tournament } from '../imports/api/tournament.js';
 
 Meteor.startup(() => {
-  // code to run on server at startup
+  // Ensure we always have one Tournament
+  var count = Tournament.find().count();
+  if (count < 1 ) {
+    Tournament.insert({ 
+          started: false,
+          ended: false,
+          timeAllowedSeconds: 15,
+          startTime: null,
+      });
+  }
+
+
   ServiceConfiguration.configurations.upsert(
     { service: 'steam' },
     {

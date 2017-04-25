@@ -9,11 +9,13 @@ export default class Player extends Component {
   }
 
   render() {
+    var admin = Meteor.user() && (Meteor.user().profile.steamid == "76561197970529465");
+
     return (
       <li>
-        <button className="delete" onClick={this.deleteThisPlayer.bind(this)}>
-            &times;
-          </button>
+        {admin ? 
+          <button className="delete" onClick={this.deleteThisPlayer.bind(this)}>&times;</button> : ''
+        }
         <img className="avatar" src={this.props.player.steamavatar}/><span className="text">{this.props.player.steamname} ({this.props.player.score})</span>
       </li>
     );
