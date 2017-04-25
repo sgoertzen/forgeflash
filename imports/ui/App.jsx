@@ -39,7 +39,7 @@ class App extends Component {
         </div>
         <div className="content">
           { this.props.currentUser ? <LoggedIn/> : <Login/> }
-          <Game/>
+          <Game tournament={this.props.tournament}/>
         </div>
         <div className="players">
           <ul>

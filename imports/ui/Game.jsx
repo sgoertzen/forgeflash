@@ -53,5 +53,5 @@ export default class Game extends Component {
 }
  
 Game.propTypes = {
-  //tournament: PropTypes.array.isRequired,
+  tournament: PropTypes.object ,
 };
