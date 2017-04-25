@@ -18,23 +18,31 @@ export default class Game extends Component {
     var tournament = (this.props.tournament && this.props.tournament.length > 0 ? this.props.tournament[0] : null);
     var started = (tournament ? tournament.started : false);
     var ended = (tournament ? tournament.ended : false);
-    return (
+    if (!Meteor.userId()) {
+      return <span></span>;
+    }
+    if (!started && !ended) {
+      return (
         <div>
-        { Meteor.userId() && started && !ended ? 
-            <div>
-            <h3>Your highest score: {this.state.highScore}</h3>
-            <object classID="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" id="myFlashMovie" width="600" height="430">
-                <param name="movie" value={gamefile}/>
-                <embed name="myFlashMovie" src={gamefile} width="600" height="430" type="application/x-shockwave-flash">
-                </embed>
-            </object>
-            </div>
-        :
-          <div>
-            <h3>You are set!  Just wait for the tournament to start!</h3>
-          </div>  
-        }
+          <div className="centered"><h3>You are all set!  Just wait for the tournament to start!</h3></div>
+          <div className="centered"><img src="/images/orange-hourglass-hi.png"/></div>
         </div>
+      );
+    }
+    if (started && !ended) {
+      return (
+        <div>
+        <h3>Your highest score: {this.state.highScore}</h3>
+        <object classID="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" id="myFlashMovie" width="600" height="430">
+            <param name="movie" value={gamefile}/>
+            <embed name="myFlashMovie" src={gamefile} width="600" height="430" type="application/x-shockwave-flash">
+            </embed>
+        </object>
+        </div>
+      );
+    }
+    return (
+      <div>Tournament is over!</div>
     );
   }
 

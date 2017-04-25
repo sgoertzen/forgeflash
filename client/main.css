@@ -80,20 +80,6 @@ form {
   margin-left: 1em;
   font-size: .5em;
 }
-
-/*
-.new-player input {
-  box-sizing: border-box;
-  padding: 10px;
-  width: 100%;
-  padding-right: 80px;
-  font-size: 1em;
-}
- 
-.new-player input:focus{
-  outline: 0;
-}
-*/
  
 .avatar {
   float: left;
@@ -124,6 +110,11 @@ ul {
   justify-content: center;
 } 
 
+.centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 li {
   position: relative;
   list-style: none;

@@ -13,10 +13,14 @@ export default class TournamentTime extends Component {
     var tournament = (this.props.tournament && this.props.tournament.length > 0 && this.props.tournament[0]);
     Tournament.update(tournament._id, {$set:{started:true}});
   }
-
   endTournament() {
     var tournament = (this.props.tournament && this.props.tournament.length > 0 && this.props.tournament[0]);
-    Tournament.update(tournament._id, {$set:{started:false}});
+    Tournament.update(tournament._id, {$set:{ended:true}});
+  }
+
+  resetTournament() {
+    var tournament = (this.props.tournament && this.props.tournament.length > 0 && this.props.tournament[0]);
+    Tournament.update(tournament._id, {$set:{started:false, ended:false}});
   }
  
   formatTime (sec_num) {
@@ -39,7 +43,8 @@ export default class TournamentTime extends Component {
       {admin ? 
         <div>
           <a href="#" className="tinylink" onClick={this.startTournament.bind(this)}>Start</a><br/>
-          <a href="#" className="tinylink" onClick={this.endTournament.bind(this)}>End</a></div> : ''}
+          <a href="#" className="tinylink" onClick={this.endTournament.bind(this)}>End</a><br/>
+          <a href="#" className="tinylink" onClick={this.resetTournament.bind(this)}>Reset</a></div> : ''}
       </div>
     );
   }
