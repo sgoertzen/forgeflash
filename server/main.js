@@ -5,14 +5,17 @@ import { Tournament } from '../imports/api/tournament.js';
 Meteor.startup(() => {
   // Ensure we always have one Tournament
   var count = Tournament.find().count();
-  if (count < 1 ) {
-    Tournament.insert({ 
-          started: false,
-          ended: false,
-          timeAllowedSeconds: 15,
-          startTime: null,
-      });
+  if (count > 0 ) {
+    Tournament.remove({});
   }
+  Tournament.insert({ 
+      endTime: null,
+      ended: false,
+      duration: 30,
+      game: 'multitask',
+      winner: null,
+    });
+
 
 
   ServiceConfiguration.configurations.upsert(
@@ -38,8 +41,11 @@ Accounts.onLogin((user) => {
     }
     var steamname = results.data.response.players[0].personaname;
     var steamavatar = results.data.response.players[0].avatar;
-
-    Meteor.users.update({_id:Meteor.user()._id}, { $set: { profile: {steamname: steamname, steamavatar: steamavatar, steamid: steamid }} });
+    var steamavatarfull = results.data.response.players[0].avatarfull;
+    
+    Meteor.users.update({_id:Meteor.user()._id}, { $set: 
+      { profile: {steamname: steamname, steamavatar: steamavatar, steamid: steamid, steamavatarfull: steamavatarfull }} }
+    );
 
     Players.upsert(
       { 

@@ -5,13 +5,15 @@ export default class TournamentTime extends Component {
   constructor(props) {
     super(props);
     this.state = {
-       secondsRemaining: 0,
+       timeremaining: 0,
     };
   }
  
   startTournament() {
     var tournament = (this.props.tournament && this.props.tournament.length > 0 && this.props.tournament[0]);
-    Tournament.update(tournament._id, {$set:{started:true}});
+    var serverTime = TimeSync.serverTime();
+    var endTime = serverTime + tournament.duration * 1000;
+    Tournament.update(tournament._id, {$set:{endTime:endTime}});
   }
   endTournament() {
     var tournament = (this.props.tournament && this.props.tournament.length > 0 && this.props.tournament[0]);
@@ -20,7 +22,7 @@ export default class TournamentTime extends Component {
 
   resetTournament() {
     var tournament = (this.props.tournament && this.props.tournament.length > 0 && this.props.tournament[0]);
-    Tournament.update(tournament._id, {$set:{started:false, ended:false}});
+    Tournament.update(tournament._id, {$set:{endTime:null, ended:false}});
   }
  
   formatTime (sec_num) {
@@ -34,12 +36,24 @@ export default class TournamentTime extends Component {
 
   render() {
     var tournament = (this.props.tournament && this.props.tournament.length > 0 && this.props.tournament[0]);
-    var started = (tournament ? tournament.started : false);
+    var started = (tournament ? tournament.endTime : false);
     var admin = Meteor.user() && (Meteor.user().profile.steamid == "76561197970529465");
 
+    var timeleft = '-';
+    if (tournament && !started) {
+      timeleft = this.formatTime(this.props.tournament[0].duration);
+    } else if (tournament) {
+      secondsLeft = Math.round((tournament.endTime - TimeSync.serverTime()) / 1000);
+      if (secondsLeft > 0) {
+        timeleft = this.formatTime(secondsLeft);
+      } else {
+        timeleft = this.formatTime(0);
+      }
+    }
+
     return (
-      <div className="timer">
-      {tournament ? this.formatTime(this.props.tournament[0].timeAllowedSeconds) : '-' }
+      <div className="centered">
+      <div className="timer">{timeleft}</div>
       {admin ? 
         <div>
           <a href="#" className="tinylink" onClick={this.startTournament.bind(this)}>Start</a><br/>
@@ -47,6 +61,29 @@ export default class TournamentTime extends Component {
           <a href="#" className="tinylink" onClick={this.resetTournament.bind(this)}>Reset</a></div> : ''}
       </div>
     );
+  }
+
+  componentDidMount() {
+    this.startCountdown();
+  }
+
+  componentWillUnmount() {
+      stopCountdown();
+  }
+
+  startCountdown() {
+    var that = this;
+    if (!this.timerID) {
+      this.timerID = setInterval(function() {   
+          that.forceUpdate();
+      },1000);
+    }
+  }
+
+  stopCountdown() {
+    if (this.timerID) {
+      clearInterval(this.timerID);
+    }
   }
 }
 

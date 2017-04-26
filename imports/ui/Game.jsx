@@ -16,7 +16,7 @@ export default class Game extends Component {
   render() {
     var gamefile = this.state.game == "cursor" ? "/games/cursor.swf" : "/games/multitask.swf";
     var tournament = (this.props.tournament && this.props.tournament.length > 0 ? this.props.tournament[0] : null);
-    var started = (tournament ? tournament.started : false);
+    var started = (tournament ? tournament.endTime : false);
     var ended = (tournament ? tournament.ended : false);
     if (!Meteor.userId()) {
       return <span></span>;
@@ -42,7 +42,13 @@ export default class Game extends Component {
       );
     }
     return (
-      <div>Tournament is over!</div>
+      <div>Tournament complete!  
+        {tournament.winner ? 
+        <div>The winner is: 
+        <img className="avatar" src={tournament.winner.steamavatar}/>
+        <span className="text">{tournament.winner.steamname} with a score of {tournament.winner.score}</span>
+        </div> : '' }
+      </div>
     );
   }
 
@@ -59,7 +65,7 @@ export default class Game extends Component {
 
   componentDidMount() {
     var variableName = this.state.game == "cursor" ? "_root.high_score" : "_root.score";
-    that = this;
+    var that = this;
     this.timerID = setInterval(function() {
       var movie = getFlashMovieObject("myFlashMovie");
       if (movie) {
