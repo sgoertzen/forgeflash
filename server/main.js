@@ -8,15 +8,33 @@ Meteor.startup(() => {
   if (count > 0 ) {
     Tournament.remove({});
   }
+  // TODO: replace this with max score query
+  var topPlayer = Players.find({score:0}).fetch()[0];
+  console.log("Top player: " + topPlayer.steamname);
   Tournament.insert({ 
       endTime: null,
       ended: false,
       duration: 30,
-      game: 'multitask',
-      winner: null,
+      game: 'multitask',  // multitask or cursor 
+      winner: topPlayer,
     });
+  
 
-
+  // setInterval(function() {
+  //   console.log("checking for expired tournament");
+  //   var tournaments = Tournament.find().count();
+  //   console.log("count: " + tournaments);
+  //   // if (!tournaments || tournaments.count() == 0) {
+  //   //  console.log("No tournament found!");
+  //   //  return;
+  //   // }
+  //   // var tournament = tournaments[0];
+  //   // console.log("endtime" + tournament.endtime);
+  //   // console.log("Server date: " + new Date());
+  //   // if (tournament.endTime && tournament.endTime < new Date()) {
+  //   //   console.log("Tournament ended!  Update the thing!")
+  //   // }
+  // }, 2000);
 
   ServiceConfiguration.configurations.upsert(
     { service: 'steam' },

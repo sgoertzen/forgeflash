@@ -42,6 +42,11 @@ body {
   font-size: .5em;
 }
  
+.EndMessage {
+  text-align: center;
+  margin: 10px;
+}
+
 header {
   background: #d2edf4;
   background-image: linear-gradient(to bottom, #E47422, #FBFBFB 100%);
@@ -115,6 +120,7 @@ ul {
   align-items: center;
   justify-content: center;
 }
+
 li {
   position: relative;
   list-style: none;
@@ -126,39 +132,24 @@ li {
 li .text {
   margin-left: 10px;
 }
- 
-li.checked {
-  color: #888;
+
+.winner {
+  display: block;
 }
- 
-li.checked .text {
-  text-decoration: line-through;
+
+.winner .title { 
+  font-size: 3em;
 }
- 
-li.private {
-  background: #eee;
-  border-color: #ddd;
+
+.winner .score {
+  font-size: 1.3em;
+  font-weight: bold;
 }
- 
-header .hide-completed {
-  float: right;
+
+.AdminControls {
+  margin-left: 1em;
+  font-size: .8em;
 }
- 
-.toggle-private {
-  margin-left: 5px;
-}
- 
-@media (max-width: 600px) {
-  li {
-    padding: 12px 15px;
-  }
- 
-  .search {
-    width: 150px;
-    clear: both;
-  }
- 
-  .new-player input {
-    padding-bottom: 5px;
-  }
+.AdminControls a {
+  margin: 3px;
 }

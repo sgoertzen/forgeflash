@@ -6,18 +6,18 @@ import { createContainer } from 'meteor/react-meteor-data';
 import { Players } from '../api/players.js';
 import { Tournament } from '../api/tournament.js';
 
+import AdminControls from './AdminControls.jsx'
 import Game from './Game.jsx';
 import Login from './Login.jsx';
 import LoggedIn from './LoggedIn.jsx';
 import Player from './Player.jsx';
 import TournamentTime from './TournamentTime.jsx';
+import EndMessage from './EndMessage.jsx';
 
 // App component - represents the whole app
 class App extends Component {
 
   renderPlayers() {
-    let filteredPlayers = this.props.players
-    filteredPlayers = filteredPlayers.filter(player => player.createdAt);
     return this.props.players.map((player) => (
       <Player key={player._id} player={player} />
     ));
@@ -31,7 +31,9 @@ class App extends Component {
         </div>
         <div className="content">
           { this.props.currentUser ? <LoggedIn/> : <Login/> }
+          <AdminControls tournament={this.props.tournament} players={this.props.players}/>
           <Game tournament={this.props.tournament}/>
+          <EndMessage tournament={this.props.tournament} players={this.props.players}/>
         </div>
         <div className="players">
           <ul>

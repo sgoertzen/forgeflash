@@ -9,22 +9,6 @@ export default class TournamentTime extends Component {
     };
   }
  
-  startTournament() {
-    var tournament = (this.props.tournament && this.props.tournament.length > 0 && this.props.tournament[0]);
-    var serverTime = TimeSync.serverTime();
-    var endTime = serverTime + tournament.duration * 1000;
-    Tournament.update(tournament._id, {$set:{endTime:endTime}});
-  }
-  endTournament() {
-    var tournament = (this.props.tournament && this.props.tournament.length > 0 && this.props.tournament[0]);
-    Tournament.update(tournament._id, {$set:{ended:true}});
-  }
-
-  resetTournament() {
-    var tournament = (this.props.tournament && this.props.tournament.length > 0 && this.props.tournament[0]);
-    Tournament.update(tournament._id, {$set:{endTime:null, ended:false}});
-  }
- 
   formatTime (sec_num) {
       var minutes = Math.floor(sec_num / 60);
       var seconds = sec_num - (minutes * 60);
@@ -35,10 +19,12 @@ export default class TournamentTime extends Component {
   }
 
   render() {
+    var adminSteamIds = ["76561197970529465"]
+    var admin = Meteor.user() && (adminSteamIds.indexOf(Meteor.user().profile.steamid) >= 0 );
+
     var tournament = (this.props.tournament && this.props.tournament.length > 0 && this.props.tournament[0]);
     var started = (tournament ? tournament.endTime : false);
-    var admin = Meteor.user() && (Meteor.user().profile.steamid == "76561197970529465");
-
+    
     var timeleft = '-';
     if (tournament && !started) {
       timeleft = this.formatTime(this.props.tournament[0].duration);
@@ -53,12 +39,7 @@ export default class TournamentTime extends Component {
 
     return (
       <div className="centered">
-      <div className="timer">{timeleft}</div>
-      {admin ? 
-        <div>
-          <a href="#" className="tinylink" onClick={this.startTournament.bind(this)}>Start</a><br/>
-          <a href="#" className="tinylink" onClick={this.endTournament.bind(this)}>End</a><br/>
-          <a href="#" className="tinylink" onClick={this.resetTournament.bind(this)}>Reset</a></div> : ''}
+        <div className="timer">{timeleft}</div>
       </div>
     );
   }
