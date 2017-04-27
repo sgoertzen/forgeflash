@@ -5,16 +5,17 @@ import { Tournament } from '../imports/api/tournament.js';
 Meteor.startup(() => {
   // Ensure we always have one Tournament
   var count = Tournament.find().count();
-  if (count < 1 ) {
-    Tournament.insert({ 
-          started: false,
-          ended: false,
-          timeAllowedSeconds: 15,
-          startTime: null,
-      });
+  if (count > 0 ) {
+    Tournament.remove({});
   }
-
-
+  Tournament.insert({ 
+      endTime: null,
+      ended: false,
+      duration: 30,
+      game: 'multitask',  // multitask or cursor 
+      winner: null,
+    });
+  
   ServiceConfiguration.configurations.upsert(
     { service: 'steam' },
     {
@@ -25,6 +26,14 @@ Meteor.startup(() => {
     }
   );
 });
+
+Meteor.setInterval(function() {
+  var tournament = Tournament.findOne({$query:{}});
+  if (tournament.endTime && tournament.endTime < new Date() && !tournament.winner) {
+    var topPlayer = Players.findOne({$query:{},$orderby:{score:1}})
+    Tournament.update(tournament._id, {$set:{winner: topPlayer}})
+  }
+}, 500);
 
 Accounts.onLogin((user) => {
   var steamid = user.user.services.steam.id;
@@ -38,8 +47,11 @@ Accounts.onLogin((user) => {
     }
     var steamname = results.data.response.players[0].personaname;
     var steamavatar = results.data.response.players[0].avatar;
-
-    Meteor.users.update({_id:Meteor.user()._id}, { $set: { profile: {steamname: steamname, steamavatar: steamavatar, steamid: steamid }} });
+    var steamavatarfull = results.data.response.players[0].avatarfull;
+    
+    Meteor.users.update({_id:Meteor.user()._id}, { $set: 
+      { profile: {steamname: steamname, steamavatar: steamavatar, steamid: steamid, steamavatarfull: steamavatarfull }} }
+    );
 
     Players.upsert(
       { 
@@ -51,8 +63,10 @@ Accounts.onLogin((user) => {
           _id: steamid,
           steamname,
           steamavatar,
+          steamavatarfull,
           createdAt: new Date(), // current time
-          score: 0
+          score: 0,
+          scoreUpdatedAt: new Date()
         }
       }
     );
