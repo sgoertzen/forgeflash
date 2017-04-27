@@ -1,23 +1,19 @@
 # forgeflash
 
 TODO: 
-* Add Timer
-** Implement server side countdown
-** Have game hide itself at the end of time (Need to have server loop yet, other work is done)
-* Support multiple games (half done)
 * Add FLash Test (use swfobject.js script)
 * Get app to run in node
 * Remove autopublish (https://www.meteor.com/tutorials/react/publish-and-subscribe)
 * Remove insecure (https://www.meteor.com/tutorials/react/security-with-methods)
-* Reset should clear scores
+
 
 DONE:
 * Move admin controls into separate component (probably under the welcome but above the game)
-
-Once I'm back on internet:
-Lookup max score query and put into server/main.js
-Lookup how to perform a server loop, or even better be notified when a date is reached
-Move setting of winner from tournament creation to setting of end
+* Support multiple games
+* Add Timer
+* Implement server side countdown
+* Have game hide itself at the end of time (Need to have server loop yet, other work is done)
+* Reset should clear scores
 
 
 

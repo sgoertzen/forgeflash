@@ -13,6 +13,7 @@ import LoggedIn from './LoggedIn.jsx';
 import Player from './Player.jsx';
 import TournamentTime from './TournamentTime.jsx';
 import EndMessage from './EndMessage.jsx';
+import WaitMessage from './WaitMessage.jsx';
 
 // App component - represents the whole app
 class App extends Component {
@@ -24,6 +25,10 @@ class App extends Component {
   }
 
   render() {
+    var tournament = (this.props.tournament && this.props.tournament.length > 0 ? this.props.tournament[0] : null);
+    var started = (tournament ? tournament.endTime : false);
+    var ended = (tournament ? tournament.ended : false);
+
     return (
       <div className="container">
         <div className="header">
@@ -32,7 +37,8 @@ class App extends Component {
         <div className="content">
           { this.props.currentUser ? <LoggedIn/> : <Login/> }
           <AdminControls tournament={this.props.tournament} players={this.props.players}/>
-          <Game tournament={this.props.tournament}/>
+          { Meteor.userId() && !started && !ended ? <WaitMessage/> : '' }
+          { Meteor.userId() && started && !ended ? <Game tournament={this.props.tournament}/> : '' }
           <EndMessage tournament={this.props.tournament} players={this.props.players}/>
         </div>
         <div className="players">

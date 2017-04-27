@@ -8,34 +8,14 @@ Meteor.startup(() => {
   if (count > 0 ) {
     Tournament.remove({});
   }
-  // TODO: replace this with max score query
-  var topPlayer = Players.find({score:0}).fetch()[0];
-  console.log("Top player: " + topPlayer.steamname);
   Tournament.insert({ 
       endTime: null,
       ended: false,
       duration: 30,
       game: 'multitask',  // multitask or cursor 
-      winner: topPlayer,
+      winner: null,
     });
   
-
-  // setInterval(function() {
-  //   console.log("checking for expired tournament");
-  //   var tournaments = Tournament.find().count();
-  //   console.log("count: " + tournaments);
-  //   // if (!tournaments || tournaments.count() == 0) {
-  //   //  console.log("No tournament found!");
-  //   //  return;
-  //   // }
-  //   // var tournament = tournaments[0];
-  //   // console.log("endtime" + tournament.endtime);
-  //   // console.log("Server date: " + new Date());
-  //   // if (tournament.endTime && tournament.endTime < new Date()) {
-  //   //   console.log("Tournament ended!  Update the thing!")
-  //   // }
-  // }, 2000);
-
   ServiceConfiguration.configurations.upsert(
     { service: 'steam' },
     {
@@ -46,6 +26,14 @@ Meteor.startup(() => {
     }
   );
 });
+
+Meteor.setInterval(function() {
+  var tournament = Tournament.findOne({$query:{}});
+  if (tournament.endTime && tournament.endTime < new Date() && !tournament.winner) {
+    var topPlayer = Players.findOne({$query:{},$orderby:{score:1}})
+    Tournament.update(tournament._id, {$set:{winner: topPlayer}})
+  }
+}, 500);
 
 Accounts.onLogin((user) => {
   var steamid = user.user.services.steam.id;
@@ -75,8 +63,10 @@ Accounts.onLogin((user) => {
           _id: steamid,
           steamname,
           steamavatar,
+          steamavatarfull,
           createdAt: new Date(), // current time
-          score: 0
+          score: 0,
+          scoreUpdatedAt: new Date()
         }
       }
     );

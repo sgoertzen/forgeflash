@@ -18,7 +18,7 @@ export default class AdminControls extends Component {
 
   resetTournament() {
     var tournament = (this.props.tournament && this.props.tournament.length > 0 && this.props.tournament[0]);
-    Tournament.update(tournament._id, {$set:{endTime:null, ended:false}});
+    Tournament.update(tournament._id, {$set:{endTime:null, ended:false, winner: null}});
     this.props.players.map((player) => 
       Players.update(player._id, {$set: { score: 0}})
     );
