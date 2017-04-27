@@ -31,7 +31,7 @@ Meteor.setInterval(function() {
   var tournament = Tournament.findOne({$query:{}});
   if (tournament.endTime && tournament.endTime < new Date() && !tournament.winner) {
     var topPlayer = Players.findOne({$query:{},$orderby:{score:1}})
-    Tournament.update(tournament._id, {$set:{winner: topPlayer}})
+    Tournament.update(tournament._id, {$set:{winner: topPlayer, ended: true}})
   }
 }, 500);
 
