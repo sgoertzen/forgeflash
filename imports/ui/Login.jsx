@@ -8,6 +8,10 @@ export default class Login extends Component {
   }
 
   render() {
-     return <header><button id="login" onClick={this.handleSteamLogin}>Log in with Steam</button></header>;
+    return (
+      <div>
+        <header className="centered"><button className="btn" id="login" onClick={this.handleSteamLogin}>Log in with Steam to Start</button></header> 
+        <div className="message centered">You will need to log in to Steam to participate.  Please use the button above to get started.</div>
+      </div>);
   }
 }
