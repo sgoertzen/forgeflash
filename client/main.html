@@ -9,10 +9,12 @@
     
   <div id="render-target"></div>
   <script>
-    if(!swfobject.hasFlashPlayerVersion("1"))
-    {
-        alert("You need flash!  (this is forge flash after all).  Click OK to go to the download page.");
-        location.href = "https://get.adobe.com/flashplayer/";
+    window.onload = function() {
+        if(!swfobject.hasFlashPlayerVersion("1"))
+        {
+            alert("You need flash!  (this is forge flash after all).  Click OK to go to the download page.");
+            window.location.href = "https://get.adobe.com/flashplayer/";
+        }
     }
     function getFlashMovieObject(movieName)
     {

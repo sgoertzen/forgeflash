@@ -11,7 +11,7 @@ Meteor.startup(() => {
   Tournament.insert({ 
       endTime: null,
       ended: false,
-      duration: 30,
+      duration: 20,
       game: 'multitask',  // multitask or cursor 
       winner: null,
     });
@@ -30,7 +30,8 @@ Meteor.startup(() => {
 Meteor.setInterval(function() {
   var tournament = Tournament.findOne({$query:{}});
   if (tournament.endTime && tournament.endTime < new Date() && !tournament.winner) {
-    var topPlayer = Players.findOne({$query:{},$orderby:{score:1}})
+    var players = Players.find({}, {sort:{"score":-1}, limit: 1}).fetch();
+    var topPlayer = players[0];
     Tournament.update(tournament._id, {$set:{winner: topPlayer, ended: true}})
   }
 }, 500);
