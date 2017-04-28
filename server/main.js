@@ -11,7 +11,7 @@ Meteor.startup(() => {
   Tournament.insert({ 
       endTime: null,
       ended: false,
-      duration: 20,
+      duration: 600,
       game: 'multitask',  // multitask or cursor 
       winner: null,
     });
