@@ -24,3 +24,6 @@ scholtzm:accounts-steam
 service-configuration
 http
 mizzao:timesync
+babel-runtime
+react
+modules-runtime
