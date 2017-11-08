@@ -1,5 +1,13 @@
 # forgeflash
 
+## Build
+Install Meteor
+`curl https://install.meteor.com/ | sh`
+Install dependencies
+`meteor npm install --save react-addons-css-transition-group react-addons-css-transition-group react-addons-linked-state-mixin react-addons-create-fragment react-addons-update react-addons-test-utils react-addons-perf`
+Run
+`meteor`
+
 TODO: 
 * Add FLash Test (use swfobject.js script)
 * Get app to run in node
