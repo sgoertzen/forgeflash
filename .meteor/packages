@@ -28,3 +28,4 @@ babel-runtime@1.1.1
 react
 modules-runtime@0.9.0
 dynamic-import
+meteortesting:mocha
